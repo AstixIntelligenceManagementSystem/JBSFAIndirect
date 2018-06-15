@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "63535936194",
+    "firebase_url": "https://jbsfaindirect.firebaseio.com",
+    "project_id": "jbsfaindirect",
+    "storage_bucket": "jbsfaindirect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63535936194:android:793ee9c31c509cd8",
+        "android_client_info": {
+          "package_name": "project.astix.com.jbsfaindirect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63535936194-91i5el6un4bdndjhqtgmi9mshnl4ivji.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "63535936194-91i5el6un4bdndjhqtgmi9mshnl4ivji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPYRyRB79ZhqbIQVCgMG153NRKvw2xVI4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
