@@ -593,6 +593,7 @@ int flgCheckNewOldStore=0;
         txt_rfrshCmnt= (TextView) findViewById(R.id.txt_rfrshCmnt);
         ll_refresh= (LinearLayout) findViewById(R.id.ll_refresh);
       //  rl_sectionQuest=(RelativeLayout) findViewById(R.id.rl_sectionQuest);
+        ll_refresh.setVisibility(View.GONE);
 
 
         fillHmapData();

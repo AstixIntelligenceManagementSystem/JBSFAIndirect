@@ -1779,11 +1779,11 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
                 {
                    // int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
                     int CheckCountAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
-                    int CheckFlagAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
+                   // int CheckFlagAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
                     Date date1 = new Date();
                     //SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                     fDate = getDateInMonthTextFormat();//sdf.format(date1).toString().trim();
-                    if (CheckCountAllWebServiceSuccesful == 1 && CheckFlagAllWebServiceSuccesful==1)
+                    if (CheckCountAllWebServiceSuccesful == 1)
                     {
                         dbengine.open();
                         String rID = dbengine.GetActiveRouteID();
@@ -3818,6 +3818,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
                 String RouteType="0";
                 try
                 {
+                    dbengine.fnInsertOrUpdate_tblAllServicesCalledSuccessfull(0);
                     dbengine.open();
                     RouteType=dbengine.FetchRouteType(rID);
                     isRouteAvailable=dbengine.fnCheckIfRoutesAvailable();
@@ -4208,6 +4209,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
                 }
                 else
                 {
+                    dbengine.fnInsertOrUpdate_tblAllServicesCalledSuccessfull(1);
                     Intent storeIntent = new Intent(AllButtonActivity.this, StoreSelection.class);
                     storeIntent.putExtra("imei", imei);
                     storeIntent.putExtra("userDate", currSysDate);

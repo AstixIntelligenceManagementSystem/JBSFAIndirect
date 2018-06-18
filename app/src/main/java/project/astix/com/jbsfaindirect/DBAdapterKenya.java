@@ -1145,6 +1145,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 			try
 			{
                 db.execSQL("DROP TABLE IF EXISTS tblAllServicesCalledSuccessfull");
+
                 db.execSQL("DROP TABLE IF EXISTS tblLastOutstanding");
 
                 db.execSQL("DROP TABLE IF EXISTS tblInvoiceLastVisitDetails");
@@ -1225,9 +1226,9 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 				db.execSQL("DROP TABLE IF EXISTS tblSalesQuotePaymentStageMstr");
 				db.execSQL("DROP TABLE IF EXISTS tblSalesQuoteTypeMstr");
 				db.execSQL("DROP TABLE IF EXISTS tblSalesQuotePaymentStageModeMapMstr");
-				
-				
-				
+
+
+
 				db.execSQL("DROP TABLE IF EXISTS tblPDAQuestGrpMappingMstr");
 				
 				
@@ -5932,7 +5933,7 @@ open();
 	public void deleteStoreList()
     {
         open();
-        db.execSQL("DELETE FROM tblStoreList");
+        db.execSQL("DELETE FROM tblStoreList where  ISNewStore=0");
         close();
     }
 	
@@ -20145,19 +20146,16 @@ open();
         try
         {
             open();
-            cursorE2 = db.rawQuery("SELECT COUNT(*) FROM tblAllServicesCalledSuccessfull", null);
-
+            cursorE2 = db.rawQuery("SELECT flgAllServicesCalledOrNot FROM tblAllServicesCalledSuccessfull", null);
+        if(cursorE2.getCount()>0)
+        {
             if (cursorE2.moveToFirst())
             {
-                if (Integer.parseInt(cursorE2.getString(0)) > 0)
-                {
-                    chkI = 1;
-                }
-                else
-                {
-                    chkI = 0;
-                }
+
+                    chkI = Integer.parseInt(cursorE2.getString(0));
+
             }
+        }
 
         }
         catch(Exception ex)
@@ -31726,6 +31724,31 @@ open();
 
             close();
             return hmapData;
+        }
+    }
+
+    public void fnInsertOrUpdate_tblAllServicesCalledSuccessfull(int flgAllServicesCalledOrNot)
+    {
+        open();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM "+ TABLE_tblAllServicesCalledSuccessfull+"" , null);
+            ContentValues initialValues = new ContentValues();
+            initialValues.put("flgAllServicesCalledOrNot", flgAllServicesCalledOrNot);
+            if(cursor.getCount()>0)
+            {
+                db.execSQL("UPDATE tblAllServicesCalledSuccessfull SET flgAllServicesCalledOrNot="+flgAllServicesCalledOrNot);
+            }
+            else
+            {
+                db.insert(TABLE_tblAllServicesCalledSuccessfull, null, initialValues);
+            }
+        }
+        catch(Exception ex)
+        {
+            String ex1=ex.getMessage();
+        }
+        finally {
+            close();
         }
     }
 

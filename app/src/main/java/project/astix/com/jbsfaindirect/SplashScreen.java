@@ -135,7 +135,7 @@ public class SplashScreen extends BaseActivity
         // imei="353202065143237";    // Development Imei
         //  imei="865404034791887";
         //imei="354010084603910";  // test release
-        imei="354010084603910"; // test release
+     //   imei="354010084603910"; // test release
 
        // imei="351893080684874";  // dev user for JB
 
@@ -155,9 +155,9 @@ public class SplashScreen extends BaseActivity
        // sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         fDate = getDateInMonthTextFormat();//sdf.format(date1).toString().trim();
 
-        int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
-
-        if (checkDataNotSync == 1)
+       // int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
+        int CheckCountAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
+        if (CheckCountAllWebServiceSuccesful == 1)
         {
             dbengine.open();
             String rID = dbengine.GetActiveRouteID();
