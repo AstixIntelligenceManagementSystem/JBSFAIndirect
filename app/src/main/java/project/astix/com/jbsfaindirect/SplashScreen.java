@@ -135,7 +135,9 @@ public class SplashScreen extends BaseActivity
         // imei="353202065143237";    // Development Imei
         //  imei="865404034791887";
         //imei="354010084603910";  // test release
-      //  imei="352335088132430"; // test release
+        imei="354010084603910"; // test release
+
+       // imei="351893080684874";  // dev user for JB
 
     if(CommonInfo.imei.trim().equals(null) || CommonInfo.imei.trim().equals(""))
     {
@@ -1127,7 +1129,8 @@ public class SplashScreen extends BaseActivity
                                 editor.commit();
                                 sPref.edit().putString("DatePref", serverDateForSPref).commit();
                                 // fnShowAlertBeforeRedirectingToLauncher();
-                                Intent i=new Intent(SplashScreen.this,DSR_Registration.class);
+                                Intent i=new Intent(SplashScreen.this,AllButtonActivity.class);
+                               // Intent i=new Intent(SplashScreen.this,DSR_Registration.class);
                                 i.putExtra("IntentFrom", "SPLASH");
                                 startActivity(i);
                                 finish();
@@ -1137,7 +1140,8 @@ public class SplashScreen extends BaseActivity
                         {
                             sPref.edit().putString("DatePref", serverDateForSPref).commit();
                             // fnShowAlertBeforeRedirectingToLauncher();
-                            Intent i=new Intent(SplashScreen.this,DSR_Registration.class);
+                            Intent i=new Intent(SplashScreen.this,AllButtonActivity.class);
+                            //Intent i=new Intent(SplashScreen.this,DSR_Registration.class);
                             i.putExtra("IntentFrom", "SPLASH");
                             startActivity(i);
                             finish();

@@ -152,7 +152,7 @@ public class GCMNotificationIntentService extends IntentService
 
 		mNotifyBuilder = new NotificationCompat.Builder(this)
 				.setContentText("You've received new message.")
-				.setSmallIcon(R.drawable.app_logo);
+				.setSmallIcon(R.drawable.p_logo);
 
 		// Set pending intent
 		mNotifyBuilder.setContentIntent(resultPendingIntent);

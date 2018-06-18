@@ -2966,7 +2966,9 @@ GoogleApiClient.OnConnectionFailedListener{
         {
             if(hmapDistPrdctStockCount.containsKey(productIdDynamic))
             {
-                tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic)+"( Avl : "+hmapDistPrdctStockCount.get(productIdDynamic)+")");
+				// Avaiable Stock will not come according to Avinash Sir
+				tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic));
+               // tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic)+"( Avl : "+hmapDistPrdctStockCount.get(productIdDynamic)+")");
             }
             else {
                 tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic));
@@ -3068,8 +3070,9 @@ GoogleApiClient.OnConnectionFailedListener{
 			et_LstStock.setText("");
 		}
 		et_Stock.setTag("etStock"+"_"+productIdDynamic);
-		et_Stock.setEnabled(true);
-	/*	if(flgOrderType==1)
+		et_Stock.setEnabled(false);   // its making false,stock alrady taken in store check
+
+		if(flgOrderType==1)
 		{
 			et_Stock.setBackgroundResource(R.drawable.edit_text_diable_bg_transprent);
 			if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.containsKey(productIdDynamic))
@@ -3089,8 +3092,11 @@ GoogleApiClient.OnConnectionFailedListener{
 		}
 		else
 		{
-			et_Stock.setEnabled(true);
-		}*/
+			et_Stock.setTextColor(getResources().getColor(R.color.black));
+			//setTextColor(getResources().getColor(R.color.black));
+			et_Stock.setEnabled(false);    // its making false,stock alrady taken in store check
+		}
+
 		et_Stock.setOnFocusChangeListener(this);
 
 
@@ -3454,9 +3460,10 @@ GoogleApiClient.OnConnectionFailedListener{
 		if(CheckIfStoreExistInStoreProdcutPurchaseDetails==1)
 
 		{
+			if(flgOrderType!=1) {
 
-
-			et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
+				et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
+			}
 		/*	if(flgOrderType!=1)
 			{
 				et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
@@ -3511,10 +3518,11 @@ GoogleApiClient.OnConnectionFailedListener{
 			if(Integer.parseInt(ProductValuesToFill.split(Pattern.quote("^"))[1])==0)
 
 			{
+				if(flgOrderType!=1) {
+					et_Stock.setText("");
 
-				et_Stock.setText("");
-
-				et_Stock.setHint(OrderReview.this.getResources().getString(R.string.StockQty));
+					et_Stock.setHint(OrderReview.this.getResources().getString(R.string.StockQty));
+				}
 				/*if(flgOrderType!=1)
 				{
 					et_Stock.setText("");
@@ -3525,11 +3533,11 @@ GoogleApiClient.OnConnectionFailedListener{
 			}
 
 
-			hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
-			/*if(flgOrderType!=1)
+			//hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
+			if(flgOrderType!=1)
 			{
 				hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
-			}*/
+			}
 
 			hmapPrdctOdrQty.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[2]);
 
@@ -3715,14 +3723,14 @@ GoogleApiClient.OnConnectionFailedListener{
 				{
 					et_Stock.setText("0");
 
-					hmapProductIdStock.put(""+getPIDTag, "0");
+					//hmapProductIdStock.put(""+getPIDTag, "0");
 
-				/*	if(flgOrderType!=1)
+					if(flgOrderType!=1)
 					{
 						et_Stock.setText("0");
 
 						hmapProductIdStock.put(""+getPIDTag, "0");
-					}*/
+					}
 
 				}
 
@@ -4626,7 +4634,9 @@ GoogleApiClient.OnConnectionFailedListener{
 									TextView tv_product_name= (TextView) ll_prdct_detal.findViewWithTag("tvProductName"+"_"+ProductIdOnClickedEdit);
 									if(tv_product_name!=null)
 									{
-										tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit)+"( Avl : "+hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+")");
+										// Avaiable Stock will not come according to Avinash Sir
+										tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit));
+										//tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit)+"( Avl : "+hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+")");
 									}
 
 
@@ -9890,9 +9900,16 @@ GoogleApiClient.OnConnectionFailedListener{
 		   getProductData();
 		   
 		   getSchemeSlabDetails();
-			 /* dbengine.open();
+			  dbengine.open();
 			  hmapFetchPDASavedData=dbengine.fetchActualVisitData(storeID);
-			  dbengine.close();*/
+			  dbengine.close();
+			  if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+			  {
+				  if(flgOrderType==1)
+				  {
+					  hmapProductIdStock.putAll(hmapFetchPDASavedData);
+				  }
+			  }
 			  hmapProductMinMax=dbengine.getProductMinMax();
 			  hmapSchmDscrptnAndBenfit=dbengine.getSchmDscrptnAndBenfit();
 			   outstandingvalue=dbengine.fnGetStoretblLastOutstanding(storeID);

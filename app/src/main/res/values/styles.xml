@@ -132,7 +132,7 @@
     </style>
     <style name="StorelistTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorPrimaryDark">@color/storelisttopcolor</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/radiocolor</item>
         <item name="colorControlNormal">@color/radiocolor</item>
         <item name="colorControlActivated">@color/radiocolor</item>

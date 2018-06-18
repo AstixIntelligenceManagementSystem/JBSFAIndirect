@@ -769,13 +769,18 @@ public class SyncMaster extends Activity
 			    if(StoreSelection.flgChangeRouteOrDayEnd==1)
 				{
 				 pDialogGetStores.setMessage(getResources().getString(R.string.txtEndingDay));
-				}else if(StoreSelection.flgChangeRouteOrDayEnd==2)
+				}
+				else if(StoreSelection.flgChangeRouteOrDayEnd==2)
 				{
 				 pDialogGetStores.setMessage(getResources().getString(R.string.txtChangeRoute));
 				}else if(StoreSelection.flgChangeRouteOrDayEnd==3)
 				{
 					 pDialogGetStores.setMessage(getResources().getString(R.string.txtSubmitQuoteDetail));
 					}
+			  else if(AllButtonActivity.flgChangeRouteOrDayEnd==1)
+			  {
+				  pDialogGetStores.setMessage(getResources().getString(R.string.txtEndingDay));
+			  }
 				else
 				{
 				pDialogGetStores.setMessage(getResources().getString(R.string.SubmittingOrderDetails));
@@ -1936,6 +1941,10 @@ if(NoOfOutletID.length>0)
 				{
 					 pDialogGetStores.setMessage(getResources().getString(R.string.txtSubmitQuoteDetail));
 					}
+				else if(AllButtonActivity.flgChangeRouteOrDayEnd==1)
+				{
+					pDialogGetStores.setMessage(getResources().getString(R.string.txtEndingDay));
+				}
 				else
 				{
 				pDialogGetStores.setMessage(getResources().getString(R.string.SubmittingOrderDetails));
@@ -2378,12 +2387,12 @@ if(NoOfOutletID.length>0)
 		{
 			ServiceWorker newservice=new ServiceWorker();
 
-			newservice=newservice.fnGetDistStockData(getApplicationContext(),CommonInfo.imei);
+			/*newservice=newservice.fnGetDistStockData(getApplicationContext(),CommonInfo.imei);
 			if(newservice.flagExecutedServiceSuccesfully!=38)
 			{
 				serviceException=true;
 
-			}
+			}*/
 
 			return null;
 		}

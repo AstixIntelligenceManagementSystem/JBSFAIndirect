@@ -9,6 +9,7 @@ public class Discussion
     // 1. There will no DayStart or Registration page will come.
     // 2. no Sales Tareget Page will come
     // 3. no Incentive page will come
+    // 4. remove Distributor Checking and its condition on Market Visit
     // After Splash Screen,there is direct DashBoard Page will come.
 
     // (Store Checkin)which is not added in RSPL SFA yet,this Project is copy of RSPL

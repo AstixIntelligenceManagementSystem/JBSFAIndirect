@@ -39,6 +39,11 @@ public class DBAdapterKenya
 	private static final String TAG = "DBAdapterKenya";
 	private boolean isDBOpenflag = false;
 
+
+
+    private static final String TABLE_tblAllServicesCalledSuccessfull = "tblAllServicesCalledSuccessfull";
+    private static final String DATABASE_CREATE_tblAllServicesCalledSuccessfull = "create table tblAllServicesCalledSuccessfull(flgAllServicesCalledOrNot int null);";
+
     private static final String DATABASE_TABLE_tblLastOutstanding = "tblLastOutstanding";
     private static final String DATABASE_CREATE_TABLE_tblLastOutstanding = "create table tblLastOutstanding(StoreID text null,Outstanding real null,AmtOverdue real null);";
 
@@ -890,7 +895,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 			
 			try
 			{
-
+                db.execSQL(DATABASE_CREATE_tblAllServicesCalledSuccessfull);
                 db.execSQL(DATABASE_CREATE_TABLE_tblLastOutstanding);
                 db.execSQL(DATABASE_CREATE_TABLE_tblInvoiceLastVisitDetails);
 
@@ -1139,6 +1144,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			try
 			{
+                db.execSQL("DROP TABLE IF EXISTS tblAllServicesCalledSuccessfull");
                 db.execSQL("DROP TABLE IF EXISTS tblLastOutstanding");
 
                 db.execSQL("DROP TABLE IF EXISTS tblInvoiceLastVisitDetails");
@@ -1556,7 +1562,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 		//  db.execSQL("DELETE FROM tblOutletMstr");
 		//  db.execSQL("DELETE FROM tblOutletQuestAnsMstr");
 
-		db.execSQL("DELETE FROM tblStoreList");
+		db.execSQL("DELETE FROM tblStoreList where ISNewStore<>1");
 	//	db.execSQL("DELETE FROM tblOutletQuestAnsMstr");
 
 
@@ -5947,6 +5953,8 @@ open();
 		//	private static final String DATABASE_CREATE_ADDONSCHEME = "create table tblStoreProductAddOnSchemeApplied (StoreID text not null,ProductID int not null,schId int not null,schSlabId integer not null,schSlbBuckId integer not null,schSlabSubBucketValue real not null,schSubBucketValType integer not null,schSlabSubBucketType int not null,BenifitRowID integer not null,BenSubBucketType int null,FreeProductID int null,BenifitSubBucketValue real null,BenifitMaxValue real null,BenifitAssignedValue real null,BenifitAssignedValueType int null,BenifitDiscountApplied int null,BenifitCouponCode text null,Sstat integer not null,Per real null,UOM real null,WhatFinallyApplied int null,schSlbRowId int null,SchTypeId int null,DiscountPercentage real null,OrderIDPDA text null);";
 		//private static final String DATABASE_TABLE_ADDONSCHEME = "tblStoreProductAddOnSchemeApplied";
 
+
+        db.execSQL("Delete FROM tblAllServicesCalledSuccessfull");
         db.execSQL("Delete FROM tblLastOutstanding");
 
         db.execSQL("Delete FROM tblInvoiceLastVisitDetails");
@@ -20128,6 +20136,44 @@ open();
 			 		}
 			 		return chkI;
 			 	}
+
+    public int CheckCounttblAllServicesCalledSuccessfull()
+    {
+        Cursor cursorE2 = null;
+        int chkI = 0;
+
+        try
+        {
+            open();
+            cursorE2 = db.rawQuery("SELECT COUNT(*) FROM tblAllServicesCalledSuccessfull", null);
+
+            if (cursorE2.moveToFirst())
+            {
+                if (Integer.parseInt(cursorE2.getString(0)) > 0)
+                {
+                    chkI = 1;
+                }
+                else
+                {
+                    chkI = 0;
+                }
+            }
+
+        }
+        catch(Exception ex)
+        {
+
+        }
+        finally
+        {
+            if(cursorE2 != null)
+            {
+                cursorE2.close();
+            }
+            close();
+        }
+        return chkI;
+    }
 			 	
 			     public void droptblUserAuthenticationMstrTBL() 
 			 	{
@@ -31651,5 +31697,37 @@ open();
         }
         return chkI;
     }
+    public LinkedHashMap<String,String>   fetchProductListLastvisitAndOrderBasis(String StoreID){
+//tblActualVisitStock (ProductID text null,Stock text null);";
+        LinkedHashMap<String,String> hmapData=new LinkedHashMap<>();
+        Cursor cursor=null;
+        open();
+        try {
+            cursor = db.rawQuery("SELECT  Distinct tblProductListLastVisitStockOrOrderMstr.PrdID,tblProductList.ProductShortName from tblProductListLastVisitStockOrOrderMstr inner join tblProductList on tblProductListLastVisitStockOrOrderMstr.PrdID=tblProductList.ProductID   where tblProductListLastVisitStockOrOrderMstr.StoreID='"+StoreID+"'", null);
+            if(cursor.getCount()>0)
+            {
+                if (cursor.moveToFirst()) {
+
+                    for (int i = 0; i <= (cursor.getCount() - 1); i++)
+                    {
+
+                        hmapData.put(cursor.getString(0),cursor.getString(1));
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }finally {
+            if(cursor !=null){
+                cursor.close();
+            }
+
+            close();
+            return hmapData;
+        }
+    }
+
 }
 

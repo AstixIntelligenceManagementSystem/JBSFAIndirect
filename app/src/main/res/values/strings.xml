@@ -1,12 +1,9 @@
 <resources>
 
- <string name="app_name">RSPL SFA</string>
-   <!-- <string name="app_name">RSPL SFA Stagging</string>-->
- <!-- <string name="app_name">RSPL SFA Test</string>-->
-    <!--<string name="app_name">RSPL SFA Dev</string>-->
-  <!-- <string name="app_name">RSPL SFA Test Release</string>-->
-
-  <!-- <string name="app_name">RSPL SFA Training</string>-->
+ <!--<string name="app_name">JB SFA</string>-->
+   <!-- <string name="app_name">JB SFA Stagging</string>-->
+  <string name="app_name">JB SFA Test</string>
+    <!--<string name="app_name">JB SFA Dev</string>-->
 
 
     <string name="overdueBal">OverDue Balance</string>

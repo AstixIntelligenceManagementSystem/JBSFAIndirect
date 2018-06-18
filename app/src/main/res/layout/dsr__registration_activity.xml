@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:visibility="visible"
         android:layout_width="match_parent"
-        android:background="@drawable/banner_rspl"
+        android:background="@drawable/banner"
         android:layout_height="100dp">
 
     </LinearLayout>

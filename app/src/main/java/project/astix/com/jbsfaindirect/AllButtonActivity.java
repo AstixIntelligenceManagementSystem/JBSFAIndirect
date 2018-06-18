@@ -291,7 +291,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     protected void onResume()
     {
         super.onResume();
-        int alreadyLocFind=dbengine.fetchtblIsDBRStockSubmitted();
+        /*int alreadyLocFind=dbengine.fetchtblIsDBRStockSubmitted();
         if(alreadyLocFind==0)
         {
             int checkData= dbengine.checkDSRCheckIntblDistributorMapping();
@@ -312,7 +312,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
         else
         {
 
-        }
+        }*/
 
         if(isDayEndClicked)
         {
@@ -325,7 +325,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_button);
-
+        flgChangeRouteOrDayEnd=0;
         sharedPrefReport = getSharedPreferences("Report", MODE_PRIVATE);
 
         sharedPref = getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
@@ -976,7 +976,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
             }
             dbengine.close();
 
-            flgChangeRouteOrDayEnd=valDayEndOrChangeRoute;
+            flgChangeRouteOrDayEnd=1;
 
             Intent syncIntent = new Intent(AllButtonActivity.this, SyncMaster.class);
             //syncIntent.putExtra("xmlPathForSync",Environment.getExternalStorageDirectory() + "/TJUKIndirectSFAxml/" + newfullFileName + ".xml");
@@ -1775,13 +1775,15 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
             {
 
 
-                    if(false)
+                    if(true)
                 {
-                    int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
+                   // int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
+                    int CheckCountAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
+                    int CheckFlagAllWebServiceSuccesful=dbengine.CheckCounttblAllServicesCalledSuccessfull();
                     Date date1 = new Date();
                     //SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                     fDate = getDateInMonthTextFormat();//sdf.format(date1).toString().trim();
-                    if (checkDataNotSync == 1)
+                    if (CheckCountAllWebServiceSuccesful == 1 && CheckFlagAllWebServiceSuccesful==1)
                     {
                         dbengine.open();
                         String rID = dbengine.GetActiveRouteID();
@@ -4131,12 +4133,13 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
 
                         if(mm==38)
                         {
-                            newservice=newservice.fnGetDistStockData(getApplicationContext(),imei);
+
+                           /* newservice=newservice.fnGetDistStockData(getApplicationContext(),imei);
                             if(newservice.flagExecutedServiceSuccesfully!=38)
                             {
                                 serviceException=true;
                                 break;
-                            }
+                            }*/
 
                         }
 

@@ -105,6 +105,10 @@ public class ProductOrderFilterSearch  extends BaseActivity implements OnItemSel
 GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 {
 
+
+	LinkedHashMap<String,String> hmapFetchPDASavedData=new LinkedHashMap<>();
+
+
 	LinkedHashMap<String, String> hmapSchmDscrptnAndBenfit;
 	LinkedHashMap<String,ArrayList<String>> hmapProductMinMax;
 	//nitika
@@ -161,7 +165,7 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 		 int flagClkdButton=0;
 	String distID="";
 
-	LinkedHashMap<String,String> hmapFetchPDASavedData=new LinkedHashMap<>();
+	//LinkedHashMap<String,String> hmapFetchPDASavedData=new LinkedHashMap<>();
 	int flgOrderType=0;
 
 	LinkedHashMap<String,Integer> hmapDistPrdctStockCount =new LinkedHashMap<String,Integer>();
@@ -1336,6 +1340,7 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 										hmapPrdctIdOutofStock.remove(ProductIdOnClickedEdit);
 										dbengine.deleteExistStockTable(distID,strGlobalOrderID,ProductIdOnClickedEdit);
 									}
+
 									if (originalNetQntty>totalStockLeft)
 									{
 
@@ -1849,7 +1854,9 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 			{
 				if(hmapDistPrdctStockCount.containsKey(productIdDynamic))
 				{
-					tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic)+"( Avl : "+hmapDistPrdctStockCount.get(productIdDynamic)+")");
+					 // Avaiable Stock will not come according to Avinash Sir
+					//tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic)+"( Avl : "+hmapDistPrdctStockCount.get(productIdDynamic)+")");
+					tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic));
 				}
 				else {
 					tv_product_name.setText(hmapPrdctIdPrdctName.get(productIdDynamic));
@@ -1957,11 +1964,11 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 			et_Stock.setTag("etStock"+"_"+productIdDynamic);
 
 			et_Stock.setOnFocusChangeListener(this);
-			et_Stock.setEnabled(true);
+			et_Stock.setEnabled(false);   // its making false,stock alrady taken in store check
 
-			/*if(flgOrderType==1)
+			if(flgOrderType==1)
 			{
-				et_Stock.setBackgroundResource(R.drawable.edit_text_diable_bg_transprent);
+				et_Stock.setBackgroundResource(R.drawable.edit_text_bg_gst_disable);
 				if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.containsKey(productIdDynamic))
 				{
 
@@ -1979,8 +1986,38 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 			}
 			else
 			{
-				et_Stock.setEnabled(true);
-			}*/
+				//ashwani sir said to mke it disable
+				et_Stock.setEnabled(false);    // its making false,stock alrady taken in store check
+				et_Stock.setBackgroundResource(R.drawable.edit_text_bg_stock);
+				et_Stock.setTextColor(getResources().getColor(R.color.black));
+				et_Stock.setHint(ProductOrderFilterSearch.this.getResources().getString(R.string.StockQty));
+
+			}
+			//ask make it enable or not
+			//et_Stock.setEnabled(true);
+
+				/*	if(flgOrderType==1)
+		{
+			et_Stock.setBackgroundResource(R.drawable.edit_text_diable_bg_transprent);
+			if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.containsKey(productIdDynamic))
+			{
+
+				et_Stock.setText(hmapFetchPDASavedData.get(productIdDynamic));
+
+
+				hmapProductIdStock.put(productIdDynamic,hmapFetchPDASavedData.get(productIdDynamic));
+
+
+			}
+			else
+			{
+				hmapProductIdStock.put(productIdDynamic,"0");
+			}
+		}
+		else
+		{
+			et_Stock.setEnabled(true);
+		}*/
 
 	           final EditText et_SampleQTY=(EditText) viewProduct.findViewById(R.id.et_SampleQTY);
 
@@ -2265,9 +2302,9 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 	           {
 
 
-
-	               et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
-
+				   if(flgOrderType!=1) {
+					   et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
+				   }
 				  /* if(flgOrderType!=1)
 				   {
 					   et_Stock.setText(ProductValuesToFill.split(Pattern.quote("^"))[1]);
@@ -2323,9 +2360,11 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 	                if(Integer.parseInt(ProductValuesToFill.split(Pattern.quote("^"))[1])==0)
 
 	                {
-						et_Stock.setText("");
+						if(flgOrderType!=1) {
+							et_Stock.setText("");
 
-						et_Stock.setHint(ProductOrderFilterSearch.this.getResources().getString(R.string.StockQty));
+							et_Stock.setHint(ProductOrderFilterSearch.this.getResources().getString(R.string.StockQty));
+						}
 						/*if(flgOrderType!=1)
 						{
 							et_Stock.setText("");
@@ -2336,12 +2375,12 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 	                }
 
 
-	               /* if(flgOrderType!=1)
+	                if(flgOrderType!=1)
 				   {
 					   hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
-				   }*/
+				   }
 
-				   hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
+				  // hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
 	                hmapPrdctOdrQty.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[2]);
 
 	                hmapProductIdOrdrVal.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[3]);
@@ -2589,13 +2628,13 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 	                                        {
 												et_Stock.setText("0");
 
-												hmapProductIdStock.put(""+getPIDTag, "0");
-												/*if(flgOrderType!=1)
+												//hmapProductIdStock.put(""+getPIDTag, "0");
+												if(flgOrderType!=1)
 												{
 													et_Stock.setText("0");
 
 													hmapProductIdStock.put(""+getPIDTag, "0");
-												}*/
+												}
 	                                        }
 
 
@@ -3555,7 +3594,9 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 							TextView tv_product_name= (TextView) ll_prdct_detal.findViewWithTag("tvProductName"+"_"+ProductIdOnClickedEdit);
 							if(tv_product_name!=null)
 							{
-								tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit)+"( Avl : "+hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+")");
+								// Avaiable Stock will not come according to Avinash Sir
+								tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit));
+								//tv_product_name.setText(hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit)+"( Avl : "+hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+")");
 							}
 
 							if(originalNetQntty!=0)
@@ -3567,6 +3608,8 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 										hmapPrdctIdOutofStock.remove(ProductIdOnClickedEdit);
 										dbengine.deleteExistStockTable(distID,strGlobalOrderID,ProductIdOnClickedEdit);
 									}
+
+
 									if (originalNetQntty>totalStockLeft)
 									{
 
@@ -8533,9 +8576,17 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 		   getProductData();
 
 		   getSchemeSlabDetails();
-			/*  dbengine.open();
+			  dbengine.open();
 			  hmapFetchPDASavedData=dbengine.fetchActualVisitData(storeID);
-			  dbengine.close();*/
+			  dbengine.close();
+
+			  if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+			  {
+				  if(flgOrderType==1)
+				  {
+					  hmapProductIdStock.putAll(hmapFetchPDASavedData);
+				  }
+			  }
 
 			  hmapProductMinMax=dbengine.getProductMinMax();
 			  hmapSchmDscrptnAndBenfit=dbengine.getSchmDscrptnAndBenfit();
@@ -8838,17 +8889,17 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 				 if(flgOrderType==1)
 				 {
 
-					 Intent fireBackDetPg=new Intent(ProductOrderFilterSearch.this,LastVisitDetails.class);
+					/* Intent fireBackDetPg=new Intent(ProductOrderFilterSearch.this,LastVisitDetails.class);
+
 					 fireBackDetPg.putExtra("storeID", storeID);
 					 fireBackDetPg.putExtra("SN", SN);
 					 fireBackDetPg.putExtra("bck", 1);
 					 fireBackDetPg.putExtra("imei", imei);
 					 fireBackDetPg.putExtra("userdate", date);
 					 fireBackDetPg.putExtra("pickerDate", pickerDate);
-					 //fireBackDetPg.putExtra("rID", routeID);
 					 startActivity(fireBackDetPg);
-					 finish();
-					/* Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,ActualVisitStock.class);
+					 finish();*/
+					 Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,ActualVisitStock.class);
 					 //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
 					 nxtP4.putExtra("storeID", storeID);
 					 nxtP4.putExtra("SN", SN);
@@ -8858,7 +8909,7 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 					 nxtP4.putExtra("flgOrderType", flgOrderType);
 
 					 startActivity(nxtP4);
-					 finish();*/
+					 finish();
 
 				 }
 				 else
@@ -9294,8 +9345,16 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 			startLocationUpdates();
 		}
 		protected void startLocationUpdates() {
-		    PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
-		            mGoogleApiClient, mLocationRequest, this);
+		 	try
+			{
+				PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
+						mGoogleApiClient, mLocationRequest, this);
+			}
+			catch (SecurityException e)
+			{
+
+			}
+
 
 		}
 		@Override
@@ -10491,7 +10550,23 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 	}
 	public void alertForOrderExceedStock(final String productOIDClkd, final EditText edOrderCurrent, final EditText edOrderCurrentLast, final int flagClkdButton)
 	{
-		AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(ProductOrderFilterSearch.this);
+		if(flagClkdButton!=-1)
+		{
+			if(dbengine.isFlgCrediBalSubmitted(storeID))
+			{
+
+				nextStepAfterRetailerCreditBal(flagClkdButton);
+
+			}
+			else
+			{
+
+				alertForRetailerCreditLimit(flagClkdButton);
+			}
+		}
+		// Alert Box will not come for JBSFA,Accoring to Avinash Sir
+
+		/*AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(ProductOrderFilterSearch.this);
 		alertDialogSubmitConfirm.setTitle(ProductOrderFilterSearch.this.getResources().getString(R.string.StockOverbooked));
 		int avilabQty=hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+Integer.parseInt(hmapPrdctOdrQty.get(productOIDClkd));
 		alertDialogSubmitConfirm.setMessage(ProductOrderFilterSearch.this.getResources().getString(R.string.AvailableQty)+avilabQty +"\n"+ProductOrderFilterSearch.this.getResources().getString(R.string.OrderQty)+hmapPrdctOdrQty.get(productOIDClkd)+"\n"+hmapPrdctIdPrdctName.get(ProductIdOnClickedEdit)+" "+getText(R.string.order_exceeds_stock));
@@ -10536,7 +10611,7 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 
 		AlertDialog alert = alertDialogSubmitConfirm.create();
 
-		alert.show();
+		alert.show();*/
 
 
 	}
@@ -10544,7 +10619,12 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 
 	public void alertForRetailerCreditLimit(final int btnClkd)
 	{
-		AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(ProductOrderFilterSearch.this);
+		dbengine.updateFlgCrediBal(storeID,0);
+
+		nextStepAfterRetailerCreditBal(btnClkd);
+
+		// Alert Box will not show according to Avinash Sir
+		/*AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(ProductOrderFilterSearch.this);
 		alertDialogSubmitConfirm.setTitle(ProductOrderFilterSearch.this.getResources().getString(R.string.genTermInformation));
 		alertDialogSubmitConfirm.setMessage(getText(R.string.credit_retailer_balance));
 		alertDialogSubmitConfirm.setCancelable(false);
@@ -10578,7 +10658,7 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 
 		AlertDialog alert = alertDialogSubmitConfirm.create();
 
-		alert.show();
+		alert.show();*/
 
 
 	}
@@ -11126,8 +11206,6 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator
 						if(hmapPrdctIdOutofStock.containsKey(ProductIdOnClickedEdit))
 						{
 							int lastOrgnlQntty=Integer.parseInt(hmapPrdctIdOutofStock.get(ProductIdOnClickedEdit));
-
-
 
 							int netStockLeft=hmapDistPrdctStockCount.get(ProductIdOnClickedEdit)+lastOrgnlQntty;
 							hmapDistPrdctStockCount.put(ProductIdOnClickedEdit,netStockLeft);

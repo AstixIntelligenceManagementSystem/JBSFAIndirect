@@ -3,10 +3,12 @@ package project.astix.com.jbsfaindirect;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,13 +19,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +41,8 @@ public class ActualVisitStock extends Activity implements CategoryCommunicator {
 LinearLayout lLayout_main;
 DBAdapterKenya dbengine;
 Button btnNext;
+    public EditText   ed_search;
+    public ImageView  btn_go;
 
     public String storeID;
     public String imei;
@@ -46,9 +51,9 @@ Button btnNext;
     public String selStoreName;
     List<String> categoryNames;
     int progressBarStatus=0;
-
+    public  Dialog dialog=null;
     LinkedHashMap<String, String> hmapctgry_details=new LinkedHashMap<String, String>();
-    TextView img_ctgry;
+    ImageView img_ctgry;
     public int StoreCurrentStoreType=0;
     String previousSlctdCtgry="";
 
@@ -105,9 +110,12 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
         btnNext= (Button) findViewById(R.id.btnNext);
 
 
-        img_ctgry=(TextView) findViewById(R.id.img_ctgry);
+       img_ctgry=(ImageView) findViewById(R.id.img_ctgry);
+        ed_search=(EditText) findViewById(R.id.ed_search);
+        btn_go=(ImageView) findViewById(R.id.btn_go);
 
-        img_ctgry.setOnClickListener(new View.OnClickListener()
+
+       img_ctgry.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -117,6 +125,36 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
             }
         });
 
+
+        btn_go.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+
+                if(!TextUtils.isEmpty(ed_search.getText().toString().trim()))
+                {
+
+                    if(!ed_search.getText().toString().trim().equals(""))
+                    {
+                        searchProduct(ed_search.getText().toString().trim(),"");
+
+                    }
+
+
+                }
+
+
+                else
+                {
+                    searchProduct("All","");
+                }
+
+            }
+
+
+        });
 
         img_back_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,9 +166,11 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
                 fireBackDetPg.putExtra("imei", imei);
                 fireBackDetPg.putExtra("userdate", date);
                 fireBackDetPg.putExtra("pickerDate", pickerDate);
+                fireBackDetPg.putExtra("flgOrderType", 1);
                 //fireBackDetPg.putExtra("rID", routeID);
                 startActivity(fireBackDetPg);
                 finish();
+                //aa
 
             }
         });
@@ -147,23 +187,81 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
 
                     }
                 }
+                passIntentToProductOrderFilter();
+      //---------------********Video page open code
+    /*            dbengine.open();
+               String VideoData=      dbengine.getVideoNameByStoreID(storeID,"2");
+                dbengine.close();
+                int flagPlayVideoForStore=0;
+                String Video_Name="0";
+                String VIDEO_PATH="0";
+                String VideoViewed="0";
+                String Contentype="0";
+                if(!VideoData.equals("0") && VideoData.contains("^")){
+                     Video_Name=   VideoData.toString().split(Pattern.quote("^"))[0];
+                     flagPlayVideoForStore=   Integer.parseInt( VideoData.toString().split(Pattern.quote("^"))[1]);
+                    VideoViewed=    VideoData.toString().split(Pattern.quote("^"))[2];
+                    Contentype=    VideoData.toString().split(Pattern.quote("^"))[3];
+                }
 
-                Intent nxtP4 = new Intent(ActualVisitStock.this,ProductOrderFilterSearch.class);
-                //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
-                nxtP4.putExtra("storeID", storeID);
-                nxtP4.putExtra("SN", selStoreName);
-                nxtP4.putExtra("imei", imei);
-                nxtP4.putExtra("userdate", date);
-                nxtP4.putExtra("pickerDate", pickerDate);
-                nxtP4.putExtra("flgOrderType", 1);
-                startActivity(nxtP4);
-                finish();
+                *//*  VIDEO_PATH= "/sdcard/WhatsApp/Media/WhatsApp Video/VID-20180303-WA0030.mp4";
+                VIDEO_PATH= "/sdcard/VideoLTFOODS/SampleVideo5mb.mp4";*//*
+                VIDEO_PATH=   Environment.getExternalStorageDirectory() + "/" + CommonInfo.VideoFolder + "/"+Video_Name;
+                Uri intentUri;
+                //if videoShown check
+                if(flagPlayVideoForStore==1 && !(VIDEO_PATH.equals("0")) && VideoViewed.equals("0")&& Contentype.equals("2")){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                        File file = new File(VIDEO_PATH);
+                         intentUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
+                    }
+                    else{
+                         intentUri = Uri.parse(VIDEO_PATH);
+                    }
+
+
+                    if(intentUri!=null) {
+                        Intent intent = new Intent(ActualVisitStock.this,VideoPlayerActivityForStore.class);
+                        intent.putExtra("FROM","ActualVisitStock");
+                        intent.putExtra("STRINGPATH",VIDEO_PATH);
+                        intent.putExtra("storeID", storeID);
+                        intent.putExtra("SN", selStoreName);
+                        intent.putExtra("imei", imei);
+                        intent.putExtra("userdate", date);
+                        intent.putExtra("pickerDate", pickerDate);
+                        intent.putExtra("flgOrderType", 1);
+                        startActivity(intent);
+                        finish();
+                       // openVideoPlayerDialog(VIDEO_PATH);
+
+                    }
+                    else{
+                        Toast.makeText(ActualVisitStock.this, "No video Found", Toast.LENGTH_LONG).show();
+                        passIntentToProductOrderFilter();
+                    }
+
+                }
+                else{
+
+                    passIntentToProductOrderFilter();
+                }*/
+                //---------------********Video page open code  end
             }
         });
 
     }
 
-
+public void passIntentToProductOrderFilter(){
+   // Intent nxtP4 = new Intent(ActualVisitStock.this,FeedbackCompetitorActivity.class);
+    Intent nxtP4 = new Intent(ActualVisitStock.this,ProductOrderFilterSearch.class);
+    nxtP4.putExtra("storeID", storeID);
+    nxtP4.putExtra("SN", selStoreName);
+    nxtP4.putExtra("imei", imei);
+    nxtP4.putExtra("userdate", date);
+    nxtP4.putExtra("pickerDate", pickerDate);
+    nxtP4.putExtra("flgOrderType", 1);
+    startActivity(nxtP4);
+    finish();
+}
     public void inflatePrdctStockData(){
 
 
@@ -247,8 +345,9 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
             hmapFetchPDASavedData.put(pair.getKey().toString(),pair.getValue().toString());
         }
 
-        img_ctgry.setText("All");
-        searchProduct("All","");
+      //  img_ctgry.setText("All");
+        //searchProduct("All","");
+        searchLoadDefaultProduct("All","");//********WE load defualt product on Oncreate
        /* if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0) {
 
 
@@ -282,7 +381,6 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
             storeID = passedvals.getStringExtra("storeID");
             imei = passedvals.getStringExtra("imei");
             date = passedvals.getStringExtra("userdate");
-
             pickerDate = passedvals.getStringExtra("pickerDate");
             selStoreName = passedvals.getStringExtra("SN");
 
@@ -354,7 +452,7 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
         dialog.dismiss();
         previousSlctdCtgry=selectedCategory;
 
-        img_ctgry.setText(selectedCategory);
+      //  img_ctgry.setText(selectedCategory);
 
         if(hmapctgry_details.containsKey(selectedCategory))
         {
@@ -373,6 +471,7 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
 
     public void searchProduct(String filterSearchText,String ctgryId)
     {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         progressBarStatus = 0;
 
 
@@ -402,7 +501,7 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
 		}*/
 
 
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
     }
 
@@ -446,4 +545,59 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
 
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(dialog!=null){
+            if(dialog.isShowing()){
+                dialog.dismiss();
+            }
+        }
+    }
+
+
+public void searchLoadDefaultProduct(String filterSearchText,String ctgryId)
+{
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    progressBarStatus = 0;
+
+
+    hmapFilterProductList.clear();
+
+
+
+
+    hmapFilterProductList=dbengine.fetchProductListLastvisitAndOrderBasis(storeID);
+    if(hmapFilterProductList!=null && hmapFilterProductList.isEmpty()){
+        hmapFilterProductList=dbengine.getFileredProductListMap(filterSearchText.trim(),StoreCurrentStoreType,ctgryId);
+
+    }
+    //System.out.println("hmapFilterProductListCount :-"+ hmapFilterProductList.size());
+    lLayout_main.removeAllViews();
+
+		/*if(hmapFilterProductList.size()<250)
+		{*/
+    if(hmapFilterProductList.size()>0)
+    {
+        inflatePrdctStockData();
+    }
+    else
+    {
+        allMessageAlert(ActualVisitStock.this.getResources().getString(R.string.AlertFilter));
+    }
+
+		/*}
+
+		else
+		{
+			allMessageAlert("Please put some extra filter on Search-Box to fetch related product");
+		}*/
+
+
+    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+}
+
 }
