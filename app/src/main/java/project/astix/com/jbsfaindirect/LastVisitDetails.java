@@ -1704,7 +1704,8 @@ final Button btn_Cancel=(Button) findViewById(R.id.btn_Cancel);
 		
 		if(flgGSTCapture.equals("1")) 
 		  {
-			ll_gstDetails.setVisibility(View.VISIBLE);
+			//ll_gstDetails.setVisibility(View.VISIBLE);
+			  ll_gstDetails.setVisibility(View.GONE);
 			     if(flgGSTCompliance.equals("0"))
 			     {
 				      rb_gst_no.setEnabled(true);

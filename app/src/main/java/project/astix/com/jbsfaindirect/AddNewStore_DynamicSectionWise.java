@@ -1109,38 +1109,15 @@ if(flgCheckNewOldStore==1)
                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.ENGLISH);
                 String VisitEndFinalTS = df.format(datefromat);
 
-                    helperDb.insertRestartStoreInfo(selStoreID,selStoreID,"2","0","0",3,VisitEndFinalTS);
-
-
-
+                helperDb.insertRestartStoreInfo(selStoreID,selStoreID,"2","0","0",3,VisitEndFinalTS);
 
 
                 try
                 {
                     if(isOnline())
                     {
+                      addStoreOffline();
 
-                        addStoreOffline();
-                        /*if (timer!=null)
-                        {
-                            timer.cancel();
-                            timer = null;
-                        }
-
-                        timer = new Timer();
-                        myTimerTask = new MyTimerTask();
-                        timer.schedule(myTimerTask,45000);
-
-                        try
-                        {
-
-                            task= new GetAddingStoreInfo(AddNewStore_DynamicSectionWise.this);
-                            task.execute();
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }*/
                     }
                     else
                     {

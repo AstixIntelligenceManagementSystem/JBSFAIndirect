@@ -164,8 +164,8 @@
 	            android:layout_height="wrap_content"
 	            android:orientation="vertical"
 	            android:id="@+id/ll_gstDetails"
-
-		  android:layout_below="@+id/parentOfAllPaymentStructure"
+                android:visibility="gone"
+		        android:layout_below="@+id/parentOfAllPaymentStructure"
 	             android:layout_marginTop="10dp"
 	             android:layout_marginLeft="10dp"
 	             android:layout_marginRight="10dp">

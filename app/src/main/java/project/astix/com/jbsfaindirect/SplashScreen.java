@@ -135,7 +135,7 @@ public class SplashScreen extends BaseActivity
         // imei="353202065143237";    // Development Imei
         //  imei="865404034791887";
         //imei="354010084603910";  // test release
-     //   imei="354010084603910"; // test release
+       // imei="354010084603910"; // test release
 
        // imei="351893080684874";  // dev user for JB
 

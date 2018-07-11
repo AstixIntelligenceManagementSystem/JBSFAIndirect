@@ -119,7 +119,7 @@ public class StoreClosedActivity extends BaseActivity implements LocationListene
     public ProgressDialog pDialog2STANDBY;
     public CoundownClass countDownTimer;
 
-    private final long startTime = 15000;
+    private final long startTime = 8000;
     private final long interval = 200;
 
     private static final String TAG = "LocationActivity";
