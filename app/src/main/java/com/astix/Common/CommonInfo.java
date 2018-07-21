@@ -11,7 +11,7 @@ public class CommonInfo
 
 
 
-/*
+
 	public static int flgAllRoutesData=1;
 	public static File imageF_savedInstance=null;
 	public static String imageName_savedInstance=null;
@@ -37,8 +37,8 @@ public class CommonInfo
 
 	public static int AnyVisit = 0;
 
-	public static int DATABASE_VERSIONID = 3;      // put this field value based on value in table on the server
-	public static String AppVersionID = "1.2";   // put this field value based on value in table on the server
+	public static int DATABASE_VERSIONID = 4;      // put this field value based on value in table on the server
+	public static String AppVersionID = "1.3";   // put this field value based on value in table on the server
 	public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 	public static String OrderSyncPath="http://103.20.212.194/ReadXML_JBLive/DefaultSFA.aspx";
@@ -75,7 +75,7 @@ public class CommonInfo
 	public static int SalesmanNodeType=0;
 	public static int flgDataScope=0;
 	public static int FlgDSRSO=0;
-*/
+
 
 
 
@@ -83,6 +83,7 @@ public class CommonInfo
 	// Its for Test Path on 194 Server a
 
 
+/*
 
 	public static int flgAllRoutesData=1;
 	public static File imageF_savedInstance=null;
@@ -109,8 +110,8 @@ public class CommonInfo
 
 	public static int AnyVisit = 0;
 
-	public static int DATABASE_VERSIONID = 4;      // put this field value based on value in table on the server
-	public static String AppVersionID = "1.3";   // put this field value based on value in table on the server
+	public static int DATABASE_VERSIONID = 5;      // put this field value based on value in table on the server
+	public static String AppVersionID = "1.4";   // put this field value based on value in table on the server
 	public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 	public static String OrderSyncPath="http://103.20.212.194/ReadXML_JBTest/DefaultSFA.aspx";
@@ -149,6 +150,7 @@ public class CommonInfo
 	public static int FlgDSRSO=0;
 
 
+*/
 
 
 

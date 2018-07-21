@@ -1,8 +1,8 @@
 <resources>
 
- <!--<string name="app_name">JB SFA</string>-->
+ <string name="app_name">JB SFA</string>
    <!-- <string name="app_name">JB SFA Stagging</string>-->
-  <string name="app_name">JB SFA Test</string>
+  <!--<string name="app_name">JB SFA Test</string>-->
     <!--<string name="app_name">JB SFA Dev</string>-->
 
 

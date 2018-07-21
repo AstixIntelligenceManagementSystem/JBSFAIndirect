@@ -123,7 +123,7 @@ public class DistributorCheckInFirstActivity extends BaseActivity implements Loc
 
     DatabaseAssistantDistributorCheckIn DA = new DatabaseAssistantDistributorCheckIn(this);
     public String newfullFileName;
-    private final long startTime = 15000;
+    private final long startTime = 10000;
     private final long interval = 200;
 
     private static final String TAG = "LocationActivity";

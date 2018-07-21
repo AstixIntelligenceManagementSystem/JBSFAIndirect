@@ -98,7 +98,7 @@ public class DistributorMapActivity extends AppCompatActivity implements Locatio
     public CoundownClass countDownTimer;
     DatabaseAssistantDistributorMap DA=new DatabaseAssistantDistributorMap(this);
     public String newfullFileName;
-    private final long startTime = 15000;
+    private final long startTime = 10000;
     private final long interval = 200;
 
     private static final String TAG = "LocationActivity";

@@ -273,7 +273,7 @@ public class StoreSelection extends BaseActivity implements com.google.android.g
 	public String NetworkLocationAccuracy="0";
 	public AppLocationService appLocationService;
 	public CoundownClass countDownTimer;
-	private final long startTime = 15000;
+	private final long startTime = 10000;
 	private final long interval = 200;
 
 	private static final String TAG = "LocationActivity";

@@ -246,7 +246,7 @@ GoogleApiClient.OnConnectionFailedListener{
 
 	    
 	    public CoundownClass2 countDownTimer2;
-	    private  long startTime = 8000;
+	    private  long startTime = 10000;
 	    private final long interval = 200;
 	    
 	    private static final String TAG = "LocationActivity";

@@ -124,7 +124,7 @@ public class AddNewStore_DynamicSectionWise extends FragmentActivity implements 
     public int flgSubmitFromQuotation=0;
     public CoundownClass countDownTimer;
 
-    private final long startTime = 15000;
+    private final long startTime = 10000;
     private final long interval = 200;
 
     private static final String TAG = "LocationActivity";
